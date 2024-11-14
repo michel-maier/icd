@@ -13,7 +13,7 @@ class ListedMovieBuilder
     private \DateTimeImmutable $releaseDate;
     private string $description;
     private string $posterUrl;
-    private float $voteAverage;
+    private float $scoreAverage;
     private int $voteCount;
 
     public function withId(int $id): self
@@ -53,7 +53,7 @@ class ListedMovieBuilder
 
     public function withVoteAverage(float $voteAverage): self
     {
-        $this->voteAverage = $voteAverage;
+        $this->scoreAverage = $voteAverage;
 
         return $this;
     }
@@ -68,13 +68,13 @@ class ListedMovieBuilder
     public function build(): ListedMovie
     {
         return new ListedMovie(
-            $this->id,
-            $this->title,
-            $this->releaseDate,
-            $this->description,
-            $this->posterUrl,
-            $this->voteAverage,
-            $this->voteCount
+            id: $this->id,
+            title: $this->title,
+            releaseDate: $this->releaseDate,
+            description: $this->description,
+            posterUrl: $this->posterUrl,
+            scoreAverage: $this->scoreAverage,
+            voteCount: $this->voteCount,
         );
     }
 }

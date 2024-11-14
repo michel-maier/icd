@@ -11,8 +11,8 @@ class DetailedMovieBuilder
     private int $id;
     private string $title;
     private string $description;
-    private string $youtubeKey;
-    private string $videoName;
+    private string $mainVideoKey;
+    private string $mainVideoName;
     private float $scoreAverage;
     private int $voteCount;
 
@@ -37,16 +37,16 @@ class DetailedMovieBuilder
         return $this;
     }
 
-    public function withYoutubeKey(string $youtubeKey): self
+    public function withMainVideoKey(string $youtubeKey): self
     {
-        $this->youtubeKey = $youtubeKey;
+        $this->mainVideoKey = $youtubeKey;
 
         return $this;
     }
 
-    public function withVideoName(string $videoName): self
+    public function withMainVideoName(string $videoName): self
     {
-        $this->videoName = $videoName;
+        $this->mainVideoName = $videoName;
 
         return $this;
     }
@@ -68,13 +68,13 @@ class DetailedMovieBuilder
     public function build(): DetailedMovie
     {
         return new DetailedMovie(
-            $this->id,
-            $this->title,
-            $this->description,
-            $this->youtubeKey,
-            $this->videoName,
-            $this->scoreAverage,
-            $this->voteCount
+            id: $this->id,
+            title: $this->title,
+            description: $this->description,
+            mainVideoKey: $this->mainVideoKey,
+            mainVideoName: $this->mainVideoName,
+            scoreAverage: $this->scoreAverage,
+            voteCount: $this->voteCount,
         );
     }
 }

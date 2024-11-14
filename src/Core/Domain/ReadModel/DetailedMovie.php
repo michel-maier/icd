@@ -10,9 +10,9 @@ readonly class DetailedMovie
         public int $id,
         public string $title,
         public string $description,
-        public string $youtubeKey,
-        public string $videoName,
-        public float $scoreAverage,
+        public ?string $mainVideoKey,
+        public ?string $mainVideoName,
+        public ?float $scoreAverage,
         public int $voteCount,
     ) {
     }

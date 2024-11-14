@@ -8,19 +8,14 @@ use App\Core\Domain\ReadModel\DetailedMovie;
 
 class DetailedMovieDirector
 {
-    public function __construct(DetailedMovieBuilder $builder)
-    {
-        $this->builder = $builder;
-    }
-
     public static function createDefaultTestDetailedMovie(int $id): DetailedMovie
     {
         return (new DetailedMovieBuilder())
             ->withId($id)
             ->withTitle('Default Title')
             ->withDescription('Default Description')
-            ->withYoutubeKey('default_key')
-            ->withVideoName('Default Video')
+            ->withMainVideoKey('default_key')
+            ->withMainVideoName('Default Video')
             ->withScoreAverage(5.0)
             ->withVoteCount(100)
             ->build();

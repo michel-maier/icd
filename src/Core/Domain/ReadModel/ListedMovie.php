@@ -12,7 +12,7 @@ readonly class ListedMovie
         public \DateTimeImmutable $releaseDate,
         public string $description,
         public string $posterUrl,
-        public float $scoreAverage,
+        public ?float $scoreAverage,
         public int $voteCount,
     ) {
     }

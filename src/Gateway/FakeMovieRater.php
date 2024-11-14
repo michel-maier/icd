@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Adapter\Gateway;
+namespace App\Gateway;
 
 use App\Core\Domain\Entity\MovieId;
 use App\Core\Domain\Exception\InvalidScoreException;

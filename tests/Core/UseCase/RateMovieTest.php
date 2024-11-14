@@ -2,10 +2,10 @@
 
 namespace App\Tests\Core\UseCase;
 
-use App\Adapter\Gateway\FakeMovieRater;
 use App\Core\Domain\Exception\InvalidScoreException;
 use App\Core\UseCase\RateMovie\RateMovie;
 use App\Core\UseCase\RateMovie\RateMovieRequest;
+use App\Gateway\FakeMovieRater;
 use PHPUnit\Framework\TestCase;
 
 class RateMovieTest extends TestCase
