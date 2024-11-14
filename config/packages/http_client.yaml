@@ -1,12 +1,11 @@
 framework:
-  http_client:
-    scoped_clients:
-      tmdb_client:
-        base_uri: 'https://api.themoviedb.org/3/'
-        default_options:
-          timeout: 10
-          headers:
-            'Accept': 'application/json'
-          query:
-            api_key: '%env(TMDB_API_KEY)%'
-            language: '%env(DEFAULT_LOCALE)%'
+    http_client:
+        scoped_clients:
+            tmdb_client:
+                base_uri: 'https://api.themoviedb.org/'
+                timeout: 10
+                headers:
+                    'Accept': 'application/json'
+                query:
+                    api_key: '%env(TMDB_API_KEY)%'
+                    language: '%env(DEFAULT_LOCALE)%'

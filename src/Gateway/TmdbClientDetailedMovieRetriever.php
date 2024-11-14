@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 readonly class TmdbClientDetailedMovieRetriever implements DetailedMovieRetriever
 {
-    public function __construct(private HttpClientInterface $tmbdClient)
+    public function __construct(private HttpClientInterface $tmdbClient)
     {
     }
 
@@ -37,7 +37,7 @@ readonly class TmdbClientDetailedMovieRetriever implements DetailedMovieRetrieve
     private function fetchMovieDetails(MovieId $id): array
     {
         try {
-            $response = $this->tmbdClient->request(Request::METHOD_GET, sprintf('/movie/%s', $id->getValue()));
+            $response = $this->tmdbClient->request(Request::METHOD_GET, sprintf('/3/movie/%s', $id->getValue()));
             return $response->toArray();
         } catch (ClientExceptionInterface $e) {
             if (404 === $e->getCode()) {
@@ -49,15 +49,13 @@ readonly class TmdbClientDetailedMovieRetriever implements DetailedMovieRetrieve
 
     private function fetchLastYouTubeVideo(MovieId $id): array
     {
-        $response = $this->tmbdClient->request(Request::METHOD_GET, sprintf('/movie/%s/videos', $id->getValue()));
-        $data = $response->toArray();
-
+        $response = $this->tmdbClient->request(Request::METHOD_GET, sprintf('/3/movie/%s/videos', $id->getValue()));
+        $data = $response->toArray();;
         $youtubeVideos = array_filter($data['results'] ?? [], fn($video) => ($video['site'] ?? '') === 'YouTube');
 
         if (empty($youtubeVideos)) {
             return [null, null];
         }
-
         $lastVideo = end($youtubeVideos);
         return [
             $lastVideo['key'] ?? null,

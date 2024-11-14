@@ -1,0 +1,49 @@
+<div>
+    {% for movie in list %}
+        <div class="card mb-3 card-custom p-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ movie.posterUrl }}" class="img-fluid rounded-start" alt="{{ movie.title }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">{{ movie.title }}</h5>
+                        {% if movie.scoreAverage > 0 %}
+                            <div class="stars">
+                                {# Display stars based on scoreAverage #}
+                                {% set fullStars = movie.scoreAverage|round(0, 'floor') %}
+                                {% set emptyStars = 5 - fullStars %}
+
+                                {# Display filled stars #}
+                                <span class="blue-star">
+                                {% for i in 1..fullStars %}
+                                    &#9733;
+                                {% endfor %}
+                                </span>
+
+                                {# Display empty stars #}
+                                <span class="grey-star">
+                                {% for i in 1..emptyStars %}
+                                    &#9733;
+                                {% endfor %}
+                            </span>
+                            <span class="text-muted">({{ movie.voteCount }} votes)</span>
+                        </div>
+                        {% endif %}
+
+                        <p class="text-muted mt-2">
+                            {{ movie.releaseDate|date("Y") }} - <span class="text-primary">studio not provided</span>
+                        </p>
+                        <p class="card-text">{{ movie.description }}</p>
+                        <button class="btn btn-primary rounded-pill float-end"
+                                data-bs-toggle="modal"
+                                data-bs-target="#myModal"
+                                data-url="{{ path('movie_detail', { 'id': movie.id }) }}">
+                            View details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

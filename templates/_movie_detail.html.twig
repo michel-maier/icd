@@ -1,0 +1,39 @@
+{% if movie.mainVideoKey %}
+    <iframe class="w-100" style="aspect-ratio: 16/9;"
+            src="https://www.youtube.com/embed/{{ movie.mainVideoKey }}?autoplay=1"
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+{% else %}
+    <p>Vidéo non disponible</p>
+{% endif %}
+
+<h3 class="mt-3">{{ movie.mainVideoName ? movie.mainVideoName : 'Vidéo non disponible' }}</h3>
+
+<p class="text-muted d-inline">Film :</p>
+<span class="fw-bold text-dark">{{ movie.title }}</span>
+
+<div class="d-inline-block">
+    <form class="star-rating-form ms-3 d-flex align-items-center" action="{{ path('movie_rate', { id: movie.id }) }}" method="post">
+        <div class="star-rating d-flex">
+            {% set fullStars = (movie.scoreAverage / 2)|round(0, 'floor') %}
+            {% set emptyStars = 5 - fullStars %}
+
+            {% for i in 1..5 %}
+                {% if i <= fullStars %}
+                    <span class="star text-warning cursor-pointer" data-value="{{ i }}">&#9733;</span>
+                {% else %}
+                    <span class="star text-muted cursor-pointer" data-value="{{ i }}">&#9733;</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- Champ caché pour envoyer la note en POST -->
+        <input type="hidden" name="rating" data-current-rating="{{ fullStars }}" value="0">
+        <!-- Badge pour afficher la note moyenne -->
+        <span class="badge bg-dark text-light ms-2">
+            {{ movie.scoreAverage ? movie.scoreAverage : 'N/A' }}
+        </span>
+    </form>
+</div>
+
+<span class="ms-2">pour {{ movie.voteCount|number_format(0, ',', ' ') }} utilisateurs</span>
+
+

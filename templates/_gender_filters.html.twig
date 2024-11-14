@@ -1,0 +1,17 @@
+<form method="get" action="">
+    <fieldset>
+        {% for gender in genders %}
+            <div class="form-check">
+                <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="gender{{ gender.id }}"
+                        name="genders[]"
+                        value="{{ gender.id }}"
+                        onchange="this.form.submit()"
+                        {% if gender.id in app.request.query.all('genders') %}checked{% endif %}>
+                <label class="form-check-label" for="gender{{ gender.id }}">{{ gender.name }}</label>
+            </div>
+        {% endfor %}
+    </fieldset>
+</form>

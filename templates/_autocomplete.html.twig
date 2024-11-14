@@ -1,0 +1,11 @@
+<!-- Autocomplete form -->
+<form class="d-flex position-relative" data-url="{{ path('movie_search', { name: '__QUERY__' }) }}">
+    <div class="input-group">
+        <input type="text" id="movieSearchInput" class="form-control" placeholder="Rechercher un film..." aria-label="Rechercher" autocomplete="off"/>
+        <span class="input-group-text">
+            <i class="fas fa-search"></i>
+        </span>
+    </div>
+    <!-- Result container-->
+    <ul id="autocompleteResults" class="list-group position-absolute w-100" style="top: 100%; z-index: 1000;"></ul>
+</form>

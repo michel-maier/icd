@@ -12,33 +12,43 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TmdbListedMovieFinder implements ListedMovieFinder
 {
-    public function __construct(private HttpClientInterface $tmbdClient)
+    private const MAX_MOVIE_BY_GENDER_IDS = 4;
+
+    private const MAX_MOVIE_BY_PARTIAL_TITLE = 10;
+
+    public function __construct(private HttpClientInterface $tmdbClient)
     {
     }
 
     public function byGenderIds(array $genderIds = []): array
     {
-        $queryParams = [];
+        $queryParams = [
+            'sort_by' => 'popularity.desc',
+        ];
 
         if (!empty($genderIds)) {
             $queryParams['with_genres'] = implode(',', array_map(fn(GenderId $id) => $id->getValue(), $genderIds));
         }
 
-        $data = $this->fetchMovies('/discover/movie', $queryParams);
+        $data = $this->fetchMovies('/3/discover/movie', $queryParams);
 
-        return $this->mapMovies($data);
+        return $this->mapMovies(array_slice($data, 0, self::MAX_MOVIE_BY_GENDER_IDS));
     }
 
     public function byPartialTitle(string $name): array
     {
-        $data = $this->fetchMovies('/search/movie', ['query' => $name]);
+        $queryParams = [
+            'query' => $name,
+        ];
 
-        return $this->mapMovies($data);
+        $data = $this->fetchMovies('/3/search/movie',  $queryParams);
+
+        return $this->mapMovies(array_slice($data, 0, self::MAX_MOVIE_BY_PARTIAL_TITLE));
     }
 
     private function fetchMovies(string $endpoint, array $queryParams): array
     {
-        $response = $this->tmbdClient->request(Request::METHOD_GET, $endpoint, ['query' => $queryParams]);
+        $response = $this->tmdbClient->request(Request::METHOD_GET, $endpoint, ['query' => $queryParams]);
         $data = $response->toArray();
 
         return $data['results'] ?? [];
@@ -53,7 +63,7 @@ class TmdbListedMovieFinder implements ListedMovieFinder
                 releaseDate: new \DateTimeImmutable($movie['release_date']),
                 description: $movie['overview'] ?? '',
                 posterUrl: $movie['poster_path'] ? sprintf('https://image.tmdb.org/t/p/w500%s', $movie['poster_path']) : '',
-                scoreAverage: $movie['vote_average'] ?? null,
+                scoreAverage:  isset($movie['vote_average']) ? $movie['vote_average'] / 2 : null,
                 voteCount: $movie['vote_count'] ?? 0
             ),
             $moviesData

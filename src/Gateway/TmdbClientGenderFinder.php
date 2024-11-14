@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 readonly class TmdbClientGenderFinder implements GenderFinder
 {
-    public function __construct(private HttpClientInterface $tmbdClient)
+    public function __construct(private HttpClientInterface $tmdbClient)
     {
     }
 
@@ -28,7 +28,7 @@ readonly class TmdbClientGenderFinder implements GenderFinder
 
     private function fetchGenres(): array
     {
-        $response = $this->tmbdClient->request(Request::METHOD_GET, '/genre/movie/list');
+        $response = $this->tmdbClient->request(Request::METHOD_GET, '/3/genre/movie/list');
         $data = $response->toArray();
 
         return $data['genres'] ?? [];
