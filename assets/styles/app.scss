@@ -1,0 +1,30 @@
+@import '~bootstrap/scss/bootstrap';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+$background-color: #f7f7f7;
+$blue-color: #007bff;
+$grey-color: #b0b0b0;
+
+.card-custom {
+    background-color: $background-color;
+}
+
+.stars {
+    .blue-star {
+        color: $blue-color;
+    }
+    .grey-star {
+        color: $grey-color;
+    }
+}
+
+fieldset {
+    border: 2px solid $grey-color;
+    padding: 10px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

@@ -1,3 +1,4 @@
+version: '3.9'
 services:
   php:
     #image: php:8.2-cli-alpine3.20
@@ -9,7 +10,7 @@ services:
   javascript:
     image: node:23-alpine3.20
     volumes:
-      - ./app/
+      - .:/app/
     working_dir: /app
 volumes:
   composer:
