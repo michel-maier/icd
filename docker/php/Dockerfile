@@ -14,7 +14,7 @@ RUN mkdir $COMPOSER_HOME && \
     curl --silent --fail-early https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     #According Sebastian Bergmann install QA tools outside the project
     composer global require symfony/phpunit-bridge && \
-    wget -O php-cs-fixer-v2 https://cs.symfony.com/download/php-cs-fixer-v2.phar && chmod +x php-cs-fixer-v2 && mv php-cs-fixer-v2 /usr/local/bin/php-cs-fixer && \
+    wget -O php-cs-fixer-v2 https://cs.symfony.com/download/php-cs-fixer-v3.phar && chmod +x php-cs-fixer-v2 && mv php-cs-fixer-v2 /usr/local/bin/php-cs-fixer && \
     wget -O phpstan https://github.com/phpstan/phpstan/releases/download/1.12.7/phpstan.phar && chmod +x phpstan && mv phpstan /usr/local/bin/phpstan && \
     chmod -R o+rwx $COMPOSER_HOME
 
