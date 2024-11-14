@@ -6,8 +6,8 @@ namespace App\Gateway;
 
 use App\Core\Domain\ReadModel\Gender;
 use App\Core\Gateway\GenderFinder;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 readonly class TmdbClientGenderFinder implements GenderFinder
 {
@@ -18,7 +18,7 @@ readonly class TmdbClientGenderFinder implements GenderFinder
     public function all(): array
     {
         return array_map(
-            fn($genreData) => new Gender(
+            fn ($genreData) => new Gender(
                 id: $genreData['id'],
                 name: $genreData['name']
             ),

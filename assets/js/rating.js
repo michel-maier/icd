@@ -7,19 +7,15 @@ export function initializeRating(modalElement) {
     const currentRating = parseInt(inputRating.getAttribute('data-current-rating'), 10) || 0;
     let selectedRating = 0;
 
-    // Affiche le score actuel au chargement
     highlightStars(currentRating);
 
     stars.forEach((star) => {
         const rating = parseInt(star.getAttribute('data-value'), 10);
 
-        // Survol pour colorer les étoiles
         star.addEventListener('mouseover', () => highlightStars(rating));
 
-        // Sortie du survol : restaure la sélection ou le score actuel
         star.addEventListener('mouseout', () => highlightStars(selectedRating || currentRating));
 
-        // Clic pour sélectionner la note
         star.addEventListener('click', () => {
             selectedRating = rating;
             inputRating.value = rating;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Presenter;
 
 use App\Core\UseCase\FindMovies\FindMoviesPresenter as Presenter;

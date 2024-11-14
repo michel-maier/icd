@@ -15,10 +15,16 @@ down:
 logs:
 	docker compose logs
 
-#Symfony/Composer
+#Symfony/Composer/yarn
 install:
 	docker compose run --rm --user="${UID}:${GID}" php composer install
 	docker compose run --rm --user="${UID}:${GID}" javascript yarn install
+	$(MAKE) build-js-dev
+
+install-prod:
+	docker compose run --rm --user="${UID}:${GID}" php composer install
+	docker compose run --rm --user="${UID}:${GID}" javascript yarn install
+	$(MAKE) build-js-prod
 
 #Encore/yarn
 build-js-dev:
@@ -27,20 +33,20 @@ build-js-prod:
 	docker compose run --rm --user="${UID}:${GID}" javascript yarn encore dev
 
 #Local dev server
-server-dev: up
+server-dev:
 	docker compose run --rm --user="${UID}:${GID}" --publish 127.0.0.1:${DEV_SERVER_PORT}:${DEV_SERVER_PORT} php -S 0.0.0.0:${DEV_SERVER_PORT} -t public
-server-prod: up
+server-prod:
 	docker compose run --rm --user="${UID}:${GID}" -e APP_ENV=prod --publish 127.0.0.1:${DEV_SERVER_PORT}:${DEV_SERVER_PORT} php -S 0.0.0.0:${DEV_SERVER_PORT} -t public
 
 
 #Test
-test: test-core test-algorithm test-func
+test: test-core test-func
 test-core:
 	@docker compose run --rm --user="${UID}:${GID}" php simple-phpunit tests/Core
 test-core-coverage:
 	 @docker compose run --rm --user="${UID}:${GID}" php php -dxdebug.mode=coverage /.composer/vendor/bin/simple-phpunit tests/Core --coverage-html ./reports
-test-func: up
-	@docker compose run --rm -e INIT_DB=1 --user="${UID}:${GID}" php simple-phpunit tests/Functional
+test-func:
+	@docker compose run --rm --user="${UID}:${GID}" php simple-phpunit tests/Functional
 
 phpcs:
 	@docker compose run --rm --user="${UID}:${GID}" php php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --verbose || return 0
@@ -51,6 +57,6 @@ phpstan:
 
 #Shell
 php-sh:
-	docker-compose run --rm --user="${UID}:${GID}" php /bin/sh
+	docker compose run --rm --user="${UID}:${GID}" php /bin/sh
 js-sh:
 	docker compose run --rm --user="${UID}:${GID}" javascript /bin/sh

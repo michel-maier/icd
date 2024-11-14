@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Core\UseCase\RateMovie\RateMovie;
@@ -18,7 +20,7 @@ class RateMovieAction
     #[Route(path: '/movie/rate/{id}', name: 'movie_rate', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function __invoke(Request $request, int $id): JsonResponse
     {
-        ($this->rateMovie)(new RateMovieRequest($id, $request->request->get('rating')));
+        ($this->rateMovie)(new RateMovieRequest($id, (int) $request->request->get('rating')));
 
         return new JsonResponse(null, 204);
     }

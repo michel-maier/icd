@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Core\Domain\ReadModel\ListedMovie;
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
-readonly Class SearchMovieAction
+readonly class SearchMovieAction
 {
     public function __construct(
         private SearchMovies $searchMovies,
@@ -25,11 +27,12 @@ readonly Class SearchMovieAction
         return new JsonResponse(($this->searchMovies)($request, $this->getPresenter()));
     }
 
-    private function getPresenter(): SearchMoviesPresenter {
+    private function getPresenter(): SearchMoviesPresenter
+    {
         return new class implements SearchMoviesPresenter {
             public function present(array $movies): array
             {
-                return array_map(fn(ListedMovie $m) => ['id' => $m->id, 'title' => $m->title], $movies);
+                return array_map(fn (ListedMovie $m) => ['id' => $m->id, 'title' => $m->title], $movies);
             }
         };
     }

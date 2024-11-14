@@ -4,7 +4,6 @@ export function initializeModal() {
     const myModalElement = document.getElementById('myModal');
     const myModal = new Modal(myModalElement);
 
-    // Écoute l'événement d'ouverture du modal
     myModalElement.addEventListener('show.bs.modal', async (event) => {
         const button = event.relatedTarget;
         const url = button?.getAttribute('data-url');
@@ -18,7 +17,6 @@ export function initializeModal() {
                 const data = await response.text();
                 myModalElement.querySelector('.modal-body').innerHTML = data;
 
-                // Import dynamique du module de notation
                 const { initializeRating } = await import('./rating.js');
                 initializeRating(myModalElement);
             } catch (error) {
@@ -47,7 +45,6 @@ export async function openModalWithMovieDetails(url) {
         myModalElement.querySelector('.modal-body').innerHTML = await response.text();
         myModal.show();
 
-        // Import dynamique du module de notation
         const { initializeRating } = await import('./rating.js');
         initializeRating(myModalElement);
     } catch (error) {

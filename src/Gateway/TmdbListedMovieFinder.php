@@ -7,8 +7,8 @@ namespace App\Gateway;
 use App\Core\Domain\Entity\GenderId;
 use App\Core\Domain\ReadModel\ListedMovie;
 use App\Core\Gateway\ListedMovieFinder;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class TmdbListedMovieFinder implements ListedMovieFinder
 {
@@ -27,7 +27,7 @@ class TmdbListedMovieFinder implements ListedMovieFinder
         ];
 
         if (!empty($genderIds)) {
-            $queryParams['with_genres'] = implode(',', array_map(fn(GenderId $id) => $id->getValue(), $genderIds));
+            $queryParams['with_genres'] = implode(',', array_map(fn (GenderId $id) => $id->getValue(), $genderIds));
         }
 
         $data = $this->fetchMovies('/3/discover/movie', $queryParams);
@@ -41,7 +41,7 @@ class TmdbListedMovieFinder implements ListedMovieFinder
             'query' => $name,
         ];
 
-        $data = $this->fetchMovies('/3/search/movie',  $queryParams);
+        $data = $this->fetchMovies('/3/search/movie', $queryParams);
 
         return $this->mapMovies(array_slice($data, 0, self::MAX_MOVIE_BY_PARTIAL_TITLE));
     }
@@ -57,7 +57,7 @@ class TmdbListedMovieFinder implements ListedMovieFinder
     private function mapMovies(array $moviesData): array
     {
         return array_map(
-            fn($movie) => new ListedMovie(
+            fn ($movie) => new ListedMovie(
                 id: $movie['id'],
                 title: $movie['title'],
                 releaseDate: new \DateTimeImmutable($movie['release_date']),

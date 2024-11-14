@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Core\UseCase;
 
 use App\Core\Domain\Entity\MovieId;
@@ -14,13 +16,13 @@ use PHPUnit\Framework\TestCase;
 
 class RetrieveMovieTest extends TestCase
 {
-    private InMemoryDetailedMovieRetriever $finder;
+    private InMemoryDetailedMovieRetriever $retriever;
     private RetrieveMovie $useCase;
 
     public function setUp(): void
     {
-        $this->finder = new InMemoryDetailedMovieRetriever();
-        $this->useCase = new RetrieveMovie($this->finder);
+        $this->retriever = new InMemoryDetailedMovieRetriever();
+        $this->useCase = new RetrieveMovie($this->retriever);
     }
 
     /**
@@ -28,7 +30,7 @@ class RetrieveMovieTest extends TestCase
      */
     public function itShouldRetrieveMovie()
     {
-        $this->setupFinder();
+        $this->setupRetriever();
 
         $result = ($this->useCase)(new RetrieveMovieRequest(1), $this->getPresenter());
 
@@ -41,7 +43,7 @@ class RetrieveMovieTest extends TestCase
      */
     public function itShouldFailedOnTryToRetrieveNotExistingMovie()
     {
-        $this->setupFinder();
+        $this->setupRetriever();
 
         $this->expectExceptionObject(MovieNotFoundException::fromId(MovieId::fromInt(7)));
 
@@ -58,8 +60,8 @@ class RetrieveMovieTest extends TestCase
         };
     }
 
-    private function setupFinder(): void
+    private function setupRetriever(): void
     {
-        $this->finder->add(DetailedMovieDirector::createDefaultTestDetailedMovie(1));
+        $this->retriever->add(DetailedMovieDirector::createDefaultTestDetailedMovie(1));
     }
 }

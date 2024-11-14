@@ -18,3 +18,18 @@ services:
         resource: '../src/Controller'
         exclude: '../src/Controller/Presenter/*'
         tags: [ 'controller.service_arguments' ]
+
+when@test:
+    services:
+        App\Tests\Gateway\:
+            resource: '../tests/Gateway/*'
+            autowire: true
+            autoconfigure: true
+            public: true
+
+        App\Core\Gateway\DetailedMovieRetriever:
+            alias: 'App\Tests\Gateway\InMemoryDetailedMovieRetriever'
+        App\Core\Gateway\GenderFinder:
+            alias: 'App\Tests\Gateway\InMemoryGenderFinder'
+        App\Core\Gateway\ListedMovieFinder:
+            alias: 'App\Tests\Gateway\InMemoryListedMovieFinder'

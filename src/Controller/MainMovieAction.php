@@ -26,7 +26,8 @@ readonly class MainMovieAction
         );
     }
 
-    private function getPresenter(): RetrieveMoviePresenter {
+    private function getPresenter(): RetrieveMoviePresenter
+    {
         return new class implements RetrieveMoviePresenter {
             public function present(DetailedMovie $detailedMovie): array
             {
